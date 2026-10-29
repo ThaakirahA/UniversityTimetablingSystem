@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in – Inclusive UniTime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+body{margin:0}
+.split{display:grid;grid-template-columns:1.05fr 1fr;min-height:100vh}
+
+/* ---- Left: brand panel ---- */
+.side{position:relative;overflow:hidden;color:#fff;padding:3rem 3.2rem;display:flex;flex-direction:column;justify-content:space-between;gap:2rem;
+ background:linear-gradient(140deg,#0c1d40 0,#1d3d75 38%,#2f6bd8 78%,#4fa0f0 100%)}
+.side::before,.side::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+.side::before{width:460px;height:460px;right:-170px;top:-150px;background:radial-gradient(circle,rgba(255,255,255,.16),rgba(255,255,255,0) 70%)}
+.side::after{width:340px;height:340px;left:-120px;bottom:-130px;background:radial-gradient(circle,rgba(255,176,0,.38),rgba(255,176,0,0) 70%)}
+.side>*{position:relative;z-index:1}
+.logo{display:flex;align-items:center;gap:.8rem;font-weight:700;font-size:1.3rem;letter-spacing:-.01em}
+.logo svg{width:44px;height:44px;flex:none}
+.pitch h2{color:#fff;font-size:clamp(2rem,3.4vw,3rem);line-height:1.08;letter-spacing:-.03em;margin:0 0 1rem;max-width:14ch}
+.pitch h2 em{font-style:normal;color:var(--amber)}
+.pitch>p{margin:0 0 1.6rem;max-width:38ch;opacity:.9;font-size:1.05rem}
+.feats{list-style:none;margin:0;padding:0;display:grid;gap:.7rem}
+.feats li{display:flex;align-items:center;gap:.7rem;font-weight:700}
+.feats .tick{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.16);flex:none}
+.feats svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.mock{align-self:flex-start;display:flex;align-items:center;gap:1rem;padding:1rem 1.2rem;border-radius:20px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 20px 40px -20px rgba(0,0,0,.5)}
+.mock .t{font-size:1.9rem;font-weight:700;letter-spacing:-.04em;line-height:1}
+.mock b{display:block}.mock small{opacity:.85}
+.mock .live{background:var(--amber);color:#1a1200;font-weight:700;font-size:.75rem;border-radius:99px;padding:.2rem .7rem}
+
+/* ---- Right: form ---- */
+.panel{display:grid;place-items:center;padding:2rem 1.4rem}
+.form{width:min(440px,100%)}
+.form h1{font-size:2.1rem;line-height:1.1;margin:0 0 .4rem;color:var(--navy);letter-spacing:-.03em}
+.form .sub{margin-bottom:1.8rem}
+fieldset{border:0;margin:0 0 1.3rem;padding:0}
+legend{font-weight:700;color:var(--navy);margin-bottom:.7rem;padding:0}
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.role{position:relative;display:flex;flex-direction:column;align-items:center;gap:.35rem;text-align:center;padding:1.4rem .8rem 1.2rem;border:2px solid var(--line);border-radius:20px;background:var(--card);cursor:pointer;color:var(--navy);box-shadow:var(--sh);transition:border-color .2s,background .2s,transform .2s,box-shadow .2s}
+.role:hover{border-color:var(--blue);transform:translateY(-3px)}
+.role input{position:absolute;opacity:0;inset:0;cursor:pointer;margin:0}
+.role .ico{width:58px;height:58px;border-radius:18px;margin-bottom:.4rem;transition:transform .2s}
+.role .ico svg{width:28px;height:28px}
+.role small{font-weight:400;color:var(--muted);font-size:.82rem;line-height:1.3}
+.role::after{content:"";position:absolute;top:.7rem;right:.7rem;width:22px;height:22px;border-radius:50%;border:2px solid var(--line);background:var(--card) center/12px no-repeat;transition:all .2s}
+.role:has(input:checked){border-color:var(--blue);background:linear-gradient(180deg,var(--sky),var(--card));box-shadow:0 0 0 4px rgba(47,107,216,.2),var(--sh)}
+.role:has(input:checked)::after{background-color:var(--blue);border-color:var(--blue);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E")}
+.role:has(input:checked) .ico{transform:scale(1.08)}
+.role:has(input:focus-visible){outline:3px solid var(--amber);outline-offset:3px}
+.form label.n{margin-bottom:.2rem}
+.form input[type=text],.form #name{padding:.8rem 1rem;border-radius:14px}
+.err{margin-top:.9rem}
+.go{width:100%;margin-top:1.3rem;padding:.95rem;font-size:1.08rem;border-radius:14px;border:0;background:linear-gradient(100deg,var(--blue),#4a86ee);box-shadow:0 14px 26px -12px var(--blue);transition:transform .15s,box-shadow .15s,filter .15s}
+.go:hover{transform:translateY(-2px);filter:brightness(1.06);background:linear-gradient(100deg,var(--blue),#4a86ee)}
+.note{display:flex;gap:.5rem;align-items:center;justify-content:center;font-size:.82rem;color:var(--muted);margin:1.2rem 0 0;text-align:center}
+
+/* ---- Motion ---- */
+@media(prefers-reduced-motion:no-preference){
+ :root:not([data-motion=reduce]) .form>*{animation:rise .6s cubic-bezier(.2,.7,.2,1) both}
+ :root:not([data-motion=reduce]) .form>*:nth-child(2){animation-delay:.07s}:root:not([data-motion=reduce]) .form>*:nth-child(3){animation-delay:.14s}
+ :root:not([data-motion=reduce]) .form>*:nth-child(4){animation-delay:.21s}
+ :root:not([data-motion=reduce]) .pitch,:root:not([data-motion=reduce]) .logo{animation:rise .7s cubic-bezier(.2,.7,.2,1) both}
+ :root:not([data-motion=reduce]) .mock{animation:rise .8s .2s cubic-bezier(.2,.7,.2,1) both,bob 6s 1s ease-in-out infinite}
+}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+@keyframes bob{50%{transform:translateY(-8px)}}
+
+:root[data-theme=dark]:not([data-contrast=high]) .form h1,:root[data-theme=dark]:not([data-contrast=high]) legend{color:var(--text)}
+:root[data-contrast=high] .side{background:#000}
+
+@media(max-width:860px){
+ .split{grid-template-columns:1fr}
+ .side{padding:1.5rem 1.4rem 2rem;border-radius:0 0 28px 28px;gap:1rem}
+ .feats,.mock{display:none}.pitch h2{font-size:1.7rem;max-width:none;margin-bottom:.4rem}.pitch>p{margin:0}
+ .panel{padding:1.6rem 1.2rem 2.4rem}.form h1{font-size:1.7rem}
+}
+</style>
+</head>
+<body>
+<div class="split">
+  <aside class="side" aria-label="About Inclusive UniTime">
+    <div class="logo"><svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="20" fill="#ffb000"/><path d="M20 9 6 16l14 7 14-7z" fill="#14284b"/><path d="M11 20v6c0 2 4 4 9 4s9-2 9-4v-6l-9 4.5z" fill="#14284b"/></svg>Inclusive UniTime</div>
+    <div class="pitch">
+      <h2>Your week, <em>made for everyone.</em></h2>
+      <p>A timetable that adapts to the way you read, listen and learn.</p>
+      <ul class="feats">
+        <li><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></span>Read-aloud and voice commands</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></span>High contrast, dark mode and larger text</li>
+        <li><span class="tick"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg></span>Instant venue changes and alerts</li>
+      </ul>
+    </div>
+    <div class="mock" aria-hidden="true">
+      <div class="t">10:00</div>
+      <div><b>Database Systems</b><small>Room 3.10 · Tomorrow</small></div>
+      <span class="live">Next class</span>
+    </div>
+  </aside>
+
+  <main class="panel" id="main">
+    <div class="form">
+      <h1>Welcome back</h1>
+      <p class="sub">Choose how you’ll use UniTime today.</p>
+      <form id="f" novalidate>
+        <fieldset>
+          <legend>I am a…</legend>
+          <div class="roles">
+            <label class="role"><input type="radio" name="role" value="student">
+              <span class="ico"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 21V5"/></svg></span>
+              <b>Student</b><small>View and filter my timetable</small></label>
+            <label class="role"><input type="radio" name="role" value="staff">
+              <span class="ico t"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/></svg></span>
+              <b>Lecturer / Admin</b><small>Edit classes and notify students</small></label>
+          </div>
+        </fieldset>
+        <label class="n">Your name <span style="font-weight:400;color:var(--muted)">(optional)</span>
+          <input id="name" autocomplete="name" placeholder="e.g. Alex" maxlength="40"></label>
+        <p class="err" id="err" role="alert"></p>
+        <button class="btn go" id="go" type="submit">Continue</button>
+      </form>
+      <p class="note"><svg class="i" viewBox="0 0 24 24" aria-hidden="true" style="width:1.1em;height:1.1em"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Demo sign-in. No password needed, nothing leaves your device.</p>
+    </div>
+  </main>
+</div>
+<script>
+const K="ut-user",root=document.documentElement,$=s=>document.querySelector(s);
+try{const u=JSON.parse(localStorage.getItem(K));if(u&&u.role)location.replace("app.html")}catch(e){}
+try{const s=JSON.parse(localStorage.getItem("ut")).s;root.dataset.theme=s.th;root.dataset.text=s.t;root.dataset.contrast=s.c;root.dataset.motion=s.m}catch(e){}
+const LBL={student:"Student",staff:"Lecturer / Admin"};
+document.querySelectorAll('input[name=role]').forEach(i=>i.onchange=()=>{$("#err").textContent="";$("#go").textContent="Continue as "+LBL[i.value]});
+$("#f").onsubmit=e=>{e.preventDefault();
+ const r=document.querySelector('input[name=role]:checked');
+ if(!r){$("#err").textContent="Please choose Student or Lecturer / Admin to continue.";document.querySelector('input[name=role]').focus();return}
+ const name=$("#name").value.trim()||(r.value==="staff"?"Dr Khan":"Alex");
+ try{localStorage.setItem(K,JSON.stringify({role:r.value,name}))}catch(_){}
+ location.href="app.html"};
+</script>
+</body>
+</html>
